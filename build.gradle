@@ -27,6 +27,12 @@ dependencies {
     // https://mvnrepository.com/artifact/org.json/json
     implementation group: 'org.json', name: 'json', version: '20200518'
 
+    implementation group: 'com.sparkjava', name: 'spark-core', version: '2.8.0'
+
+    implementation group: 'com.sparkjava', name: 'spark-template-handlebars', version: '2.7.1'
+
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.21'
+
 
     // https://mvnrepository.com/artifact/org.postgresql/postgresql
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.12'
@@ -39,4 +45,21 @@ dependencies {
 application {
     // Define the main class for the application.
     mainClassName = 'edu.au.cc.gallery.App'
+}
+
+task deploy(type:Exec) {
+  dependsOn tasks.build
+  
+  workingDir '.'
+
+  //on linux
+  commandLine './deploy.sh'
+
+  //store the output instead of printing to the console:
+  standardOutput = new ByteArrayOutputStream()
+
+  //extension method stopTomcat.output() can be used to obtain the output:
+  ext.output = {
+    return standardOutput.toString()
+  }
 }
