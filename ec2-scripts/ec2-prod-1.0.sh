@@ -2,9 +2,9 @@
 
 # Install packages
 yum -y update
-yum install -y java-11-openjdk-devel git
 amazon-linux-extras install -y java-openjdk11
 amazon-linux-extras install -y nginx1
+yum install -y java-11-openjdk-devel git
 su ec2-user -l -c 'curl -s "https://get.sdkman.io" | bash && source .bashrc && sdk install gradle'
 
 # Configure/install custom software
