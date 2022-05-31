@@ -1,0 +1,53 @@
+package edu.au.cc.gallery;
+
+import java.util.*;
+import java.io.*;
+import java.sql.*;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+public class UserAdmin {
+
+	private Connection connection;
+
+       //Reads Users
+    public ResultSet readUsers(String query) throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement(query);
+        ResultSet rs = stmt.executeQuery();
+        return rs;
+    }
+
+    public static void main(String [] args) {
+        DB db = new DB();
+	try {
+	db.connect();
+	} catch (Exception E) {
+	System.out.println("Error occurred.");
+	}
+
+	System.out.println(
+	  "1) List users\n"
+	+ "2) Add user\n"
+	+ "3) Edit user\n"
+	+ "4) Delete user\n"
+	+ "5) Quit");
+	System.out.print("Enter command> ");
+
+	ResultSet rs = db.readUsers("select username.password.full_name from users");
+	//Scanner s = new Scanner(System.in);
+//	int command  = s.nextInt();
+
+	//Calls the "helpful" command from input
+//	switch(command){
+//	case 1: db.execute("select username,password,full_name from users");
+//	case 2:
+//	case 3:
+//	case 4:
+//	case 5:
+//	default:
+//	}
+   }
+}
+
+

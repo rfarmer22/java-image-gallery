@@ -20,6 +20,12 @@ repositories {
     jcenter()
 }
 
+run {
+
+standardInput = System.in
+
+}
+
 dependencies {
     implementation platform('software.amazon.awssdk:bom:2.13.20')
     implementation 'software.amazon.awssdk:s3'

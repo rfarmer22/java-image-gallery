@@ -31,7 +31,6 @@ public class App {
 //
 //	new Calculator().addRoutes();
 
-	UserAdmin.main(null);
-//	DB.demo();
+	main.UserAdmin.java;
     }
 }
