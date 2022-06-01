@@ -26,6 +26,14 @@ standardInput = System.in
 
 }
 
+task printRuntimeClasspath {
+    def runtimeClasspath = sourceSets.main.runtimeClasspath
+    inputs.files( runtimeClasspath )
+    doLast {
+        println runtimeClasspath.join( File.pathSeparator )
+    }
+}
+
 dependencies {
     implementation platform('software.amazon.awssdk:bom:2.13.20')
     implementation 'software.amazon.awssdk:s3'

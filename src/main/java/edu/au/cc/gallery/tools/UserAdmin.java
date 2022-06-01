@@ -1,5 +1,5 @@
 package edu.au.cc.gallery;
-/////
+///
 import java.util.*;
 import java.io.*;
 import java.sql.*;

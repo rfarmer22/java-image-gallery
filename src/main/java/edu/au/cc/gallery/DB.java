@@ -45,8 +45,10 @@ public class DB {
     public void listUsers() throws SQLException {
 	PreparedStatement stmt = connection.prepareStatement("select username, password, full_name from users");
 	ResultSet rs = stmt.executeQuery();
+ 	System.out.printf("%-20s%-20s%-30s\n","username","password","full name");
+	System.out.println("------------------------------------------------------");
 	while(rs.next()) {
-	   System.out.println(rs.getString(1)+","+rs.getString(2)+","+rs.getString(3));
+	    System.out.printf("%-20s%-20s%-30s\n",rs.getString(1),rs.getString(2),rs.getString(3));
 	}
 	rs.close();
     }
