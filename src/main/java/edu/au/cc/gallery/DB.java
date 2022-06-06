@@ -15,26 +15,24 @@ import org.json.JSONObject;
 
 public class DB {
 
-    private static final String dbUrl = "jdbc:postgresql://demo-database-1.cbimem44ngio.us-east-1.rds.amazonaws.com/image_gallery";
+    private static final String dbUrl = "jdbc:postgresql://image-gallery.cbimem44ngio.us-east-1.rds.amazonaws.com/image_gallery";
 
     private Connection connection;
 
-    private String getPassword() {
-	try(BufferedReader br = new BufferedReader(new FileReader("/home/ec2-user/.sql-passwd"))) {
-		String result = br.readLine();
-		return result;
-	} catch (IOException ex) {
-		System.err.println("Error opening password file. Make sure .sql-passwd exists and contains your sql password.");
-		System.exit(1);
-    		}
-		return null;
-	}
+    private JSONObject getSecret() {
+	String s = Secrets.getSecretImageGallery();
+	return new JSONObject(s);
+    }
 
-    //Connects DB
+    private String getPassword(JSONObject secret) {
+	return secret.getString("password");
+    }
+
     public void connect() throws SQLException {
 	try {
 	    Class.forName("org.postgresql.Driver");
-	    connection = DriverManager.getConnection(dbUrl, "image_gallery", getPassword());
+	    JSONObject secret = getSecret();
+	    connection = DriverManager.getConnection(dbUrl, "image_gallery", getPassword(secret));
 	} catch (ClassNotFoundException ex) {
 	    ex.printStackTrace();
 	    System.exit(1);
@@ -120,7 +118,7 @@ public class DB {
 	}
     }
 
-	   public void deleteUser(String username) throws SQLException {
+    public void deleteUser(String username) throws SQLException {
 	      System.out.println();
               if(existingUser(username) == false){
                  System.out.println("No such user.");
@@ -143,7 +141,7 @@ public class DB {
 	db.connect();
 //	db.updateUser("update users set password=? where username=?",
 //		   new String[] {"monkey", "fred"});
-//	db.listUsers();//"select username,password,full_name from users");
+	db.listUsers();//"select username,password,full_name from users");
 //	while(rs.next()) System.out.println(rs.getString(1)+","+rs.getString(2)+","+rs.getString(3));
 //	rs.close();
 	db.close();

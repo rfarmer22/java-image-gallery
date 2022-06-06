@@ -21,14 +21,8 @@ public class UserAdmin {
 	   return command;
 	}
 
-        public static void main (String [] args) {
-        DB db = new DB();
-        try {
-    	   db.connect();
-	   int i = promptUser();
-
-	   //Calls the "helpful" command from input
-	   switch(i){
+	private static void performCommand(int command, DB db) throws SQLException {
+	   switch(command){
 	   case 1: db.listUsers();
 		   break;
 	   case 2: System.out.print("Username> ");
@@ -60,18 +54,32 @@ public class UserAdmin {
                    	confirmation = s.next().strip().toLowerCase();
 		        }
 		   break;
-	   case 5: db.close();
-		   System.out.println("Bye.");
-		   break;
    	   default:System.out.println("Invalid command. Please enter command from 1-5.");
 		   break;
+	           }
 	   }
 
-	} catch (Exception e) {
-	   System.out.println(e);
-	}
 
+        public static void main (String [] args) {
+        DB db = new DB();
+        try {
+    	   db.connect();
+	   int userCommand = 0;
+           while(userCommand == 0) {
+	      userCommand = promptUser();
+	      if(userCommand == 5) {
+	         db.close();
+	         System.out.println("Bye.");
+		 break;
+		 }
+	      performCommand(userCommand, db);
+	      System.out.println();
+	      userCommand = 0;
+	      }
+        }
+	catch (Exception e) {
+	   System.out.println(e); 
+	   }
+        }
    }
-}
-
 
