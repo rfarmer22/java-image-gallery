@@ -39,7 +39,15 @@ public class DB {
 	}
     }
 
-    //Reads Users
+    //Gets Users
+    public ResultSet getUsers() throws SQLException {
+        PreparedStatement stmt = connection.prepareStatement("select username from users");
+        ResultSet rs = stmt.executeQuery();
+        return rs;
+	}
+
+
+    //Prints Users
     public void listUsers() throws SQLException {
 	PreparedStatement stmt = connection.prepareStatement("select username, password, full_name from users");
 	ResultSet rs = stmt.executeQuery();

@@ -8,6 +8,8 @@ public class UserAdmin {
 
 	private static Scanner s = new Scanner(System.in);
 
+	private static DB db = new DB();
+
 	private static int promptUser() {
 	System.out.println(
 	     "1) List users\n"
@@ -21,9 +23,15 @@ public class UserAdmin {
 	   return command;
 	}
 
-	private static void performCommand(int command, DB db) throws SQLException {
+	private static void performCommand(int command) throws SQLException {
 	   switch(command){
-	   case 1: db.listUsers();
+	   case 1: ResultSet rs = db.getUsers();
+		   System.out.printf("%-20s\n","username"); //,"full name"); //"password","full name");
+	           System.out.println("-----------------------------------------");
+                   while(rs.next()) {
+                   System.out.printf("%-20s\n",rs.getString(1)); //,rs.getString(2)); //,rs.getString(3));
+                	}
+	           rs.close();
 		   break;
 	   case 2: System.out.print("Username> ");
 		   String username = s.nextLine();
@@ -60,10 +68,9 @@ public class UserAdmin {
 	   }
 
 
-        public static void main (String [] args) {
-        DB db = new DB();
+        public static void main (String [] args) throws SQLException {
         try {
-    	   db.connect();
+  	   db.connect();
 	   int userCommand = 0;
            while(userCommand == 0) {
 	      userCommand = promptUser();
@@ -72,11 +79,11 @@ public class UserAdmin {
 	         System.out.println("Bye.");
 		 break;
 		 }
-	      performCommand(userCommand, db);
+	      performCommand(userCommand);
 	      System.out.println();
 	      userCommand = 0;
 	      }
-        }
+     	}
 	catch (Exception e) {
 	   System.out.println(e); 
 	   }

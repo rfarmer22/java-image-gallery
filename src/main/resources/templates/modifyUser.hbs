@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+     <title>Data Administration for the {{name}} Database</title>
+     <meta charset="utf-8" />
+  </head>
+  <body>
+  <br/>
+  <h2>Modify {{name}} Database User</h2>
+    <form action="/admin/modifyUser/{{name}} method="POST">
+      <label for="pwd">Password:</label><br>
+      <input type="password" id="pwd" name="pwd">
+      <label for="full_name">Full Name:</label><br>
+      <input type="text" id="full_name" name="full_name">
+      <input type="submit" value="Update User">	
+</form>
+</html>

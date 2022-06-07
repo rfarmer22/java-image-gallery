@@ -5,6 +5,8 @@ package edu.au.cc.gallery;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import static spark.Spark.*;
 
@@ -18,6 +20,10 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
+	port(5000);
+	Routes.connectToDatabase();
+	new Routes().addRoutes();
+
 //	String portString = System.getenv("JETTY_PORT");
 //	if (portString == null || portString.equals(""))
 //	    port(5000);
@@ -29,9 +35,13 @@ public class App {
 //
 //	get("/greet/:name", (req, res) -> "Nice to meet you "+ req.params(":name"));
 //
+//	post("/add", (req, res) -> "The sum is " + (Integer.parseInt(req.queryParams("x")) + Integer.parseInt(req.queryParams("y"))));
+//
+//	DB db = new DB();
 //	new Calculator().addRoutes();
-
-	UserAdmin.main(null);
+//	port(5000);
+//        get("/hello", (req, res) -> "Hello World");
+//	UserAdmin.main(null);
 //	DB.demo();
     }
 }
