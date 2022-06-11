@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <html>
   <head>
-     <title>Data Administration for the {{username}} Database</title>
+     <title>Data Administration for the {{user}} Database</title>
      <meta charset="utf-8" />
   </head>
   <body>  
   <br/>
-  <h2>Delete the {{username}} Database User</h2>
-     <h1>Are you sure you want to delete user: {{username}}?</h1> 
-     <form action="/admin/deleteUser/{{username}}" method="POST">
-       <input type="submit" value="Delete"/>
+     <h2>Are you sure you want to delete user: {{user}}?</h2> 
+     <form action="/admin/deleteUser/{{user}}" method="POST">
+       <input type="submit" value="Delete">
      </form>
 </html>

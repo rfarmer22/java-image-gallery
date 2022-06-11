@@ -7,16 +7,14 @@
   </head>
   <br/>
   <h2>List of Users</h2>
-  {{#users}}
   <ul>
+  {{#users}}
     <li>
-     <a href="/admin/modifyUser/{{.}}">
-      <form action="/admin/deleteUser/{{.}}" method="POST">
-	{{.}}
-          <input type="submit" value="Delete"/>
-     </form>
-    </a>
-  </li>
-</ul>
-{{/users}}
+        <a href="/admin/modifyUser/{{.}}">{{.}}</a>
+	<a href="/admin/deleteUser/{{.}}"><button>Delete</a>
+    </li>
+  {{/users}}
+ </ul>
+    <br>
+	<a href="/admin/addUser"><button>Create User</a>
 </html>

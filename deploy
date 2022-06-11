@@ -10,7 +10,7 @@ rm -f ec2-prod-latest.sh
 ln -s ec2-prod-$1.sh ec2-prod-latest.sh
 cd ..
 
-CONFIG_BUCKET="s3://edu.au.cc.image-gallery-config"
+CONFIG_BUCKET="s3://edu.au.cc.image-gallery-conf"
 
 aws s3 cp ec2-scripts/ec2-prod-$1.sh  ${CONFIG_BUCKET}
 aws s3 cp ec2-scripts/ec2-prod-latest.sh ${CONFIG_BUCKET}

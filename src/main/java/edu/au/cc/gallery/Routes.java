@@ -26,7 +26,10 @@ public class Routes {
 
 	public void addRoutes() {
 	get("/admin", (req, res) -> adminPage(req, res));
-	get("/admin/deleteUser/:user", (req, res) -> deleteUser(req, res));
+	get("/admin/deleteUser/:user", (req, res) -> deleteUser(req.params(":user"), res));
+	post("/admin/deleteUser/:user", (req, res) -> postDeleteUser(req.params(":user"), res));
+	get("/admin/addUser", (req, res) -> addUser(req, res));
+	post("/admin/addUser", (req, res) -> postAddUser(req.queryParams("username"), req.queryParams("pwd"), req.queryParams("full_name"), res));
 //	get("/admin/modifyUser/:user", (req, res) -> modifyUser(req, res));
 
 	}
@@ -47,14 +50,49 @@ public class Routes {
 	} catch (SQLException e) {
 	   System.out.println(e);
 	}
-	return "";
+	   return "";
 	}
 
-	public String deleteUser(Request req, Response res) {
-	Map<String, Object> model = new HashMap<String, Object>();
-	model.put("username", ":user");
-	return new HandlebarsTemplateEngine().render(new ModelAndView(model, "deleteUser.hbs"));
+	public String addUser(Request req, Response res) {
+	   Map<String, Object> model = new HashMap<String, Object>();
+           return new HandlebarsTemplateEngine().render(new ModelAndView(model, "addUser.hbs"));
+	   }
+
+	public String postAddUser(String username, String password, String fullname, Response res) {
+	   Map<String, Object> model = new HashMap<String, Object>();
+	   try {
+	      db.addUser(username, password, fullname);
+	      res.redirect("/admin");
+	      return "";
+	   } catch (Exception e) {
+		System.out.println(e);
+	   }
+	     return "";
 	}
+
+	public String deleteUser(String username, Response res) {
+	Map<String, Object> model = new HashMap<String, Object>();
+	try {
+           model.put("user", username);
+	   return new HandlebarsTemplateEngine().render(new ModelAndView(model, "deleteUser.hbs"));
+	} catch (Exception e) {
+	   System.out.println(e);
+	}
+	   return "";
+	}
+
+	public String postDeleteUser(String username, Response res) {
+        Map<String, Object> model = new HashMap<String, Object>();
+        try {
+	   db.deleteUser(username);
+           model.put("user", username);
+	   res.redirect("/admin");
+	   return "";
+        } catch (Exception e) {
+           System.out.println(e);
+        }
+           return "";
+        }
 
 //	public void modifyUser(String username, Request req, Response res) {
 //	Map<String, Object> model = new HashMap<String, Object>();

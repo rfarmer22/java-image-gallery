@@ -20,7 +20,15 @@ public class App {
     }
 
     public static void main(String[] args) throws Exception {
-	port(5000);
+//	port(5000);
+
+	String portString = System.getenv("JETTY_PORT");
+           if (portString == null || portString.equals("")) {
+             port(5000);
+           }  else {
+           port(Integer.parseInt(portString));
+	   }
+
 	Routes.connectToDatabase();
 	new Routes().addRoutes();
 

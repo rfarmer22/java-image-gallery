@@ -35,10 +35,10 @@ public class S3 {
     }
 
     public static void demo() {
-	String bucketName = "edu.au.cc.image-gallery";
-	S3 s3 = new S3();
-	s3.connect();
+//	String bucketName = "edu.au.cc.image-gallery";
+//	S3 s3 = new S3();
+//	s3.connect();
 	//s3.createBucket(bucketName);
-	s3.putObject(bucketName, "banana", "yellow");
+//	s3.putObject(bucketName, "banana", "green");
     }
 }
