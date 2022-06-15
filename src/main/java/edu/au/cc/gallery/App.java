@@ -19,17 +19,17 @@ public class App {
         	return "Hello David.";
     	}
 
-	private static String listUsers() {
-	try {
-		StringBuffer sb = new StringBuffer();
-		UserDAO dao = Postgres.getUserDAO();
-		for(User u: dao.getUsers())
-			sb.append(u.toString() +"<br/>");
-		return sb.toString();
-	} catch (Exception e) {
-		return "Error: " + e.getMessage();
-		}
-	}
+//	private static String listUsers() {
+//	try {
+//		StringBuffer sb = new StringBuffer();
+//		UserDAO dao = Postgres.getUserDAO();
+//		for(User u: dao.getUsers())
+//			sb.append(u.toString() +"<br/>");
+//		return sb.toString();
+//	} catch (Exception e) {
+//		return "Error: " + e.getMessage();
+//		}
+//	}
     	public static void main(String[] args) throws Exception {
 //		port(5000);
 //		get("/users", (req, res) -> listUsers());
