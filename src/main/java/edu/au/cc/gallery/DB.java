@@ -46,6 +46,19 @@ public class DB {
         return rs;
 	}
 
+   public ResultSet execute(String query) throws SQLException {
+	PreparedStatement stmt = connection.prepareStatement(query);
+	ResultSet rs = stmt.executeQuery();
+	return rs;
+	}
+
+   public void execute(String query, String [] values) throws SQLException {
+	PreparedStatement stmt = connection.prepareStatement(query);
+	for(int i=0; i < values.length; i++)
+		stmt.setString(i+1, values[i]);
+	stmt.execute();
+    } 
+
 
     //Prints Users
     public void listUsers() throws SQLException {
@@ -86,6 +99,35 @@ public class DB {
 	return;
 	}
     }
+
+    public void modifyUser(String username, String password, String fullname) throws SQLException {
+	if(password.equals("") && fullname.equals("")){
+	   return;
+	   }
+	if(password.equals("") && !fullname.equals("")){
+	   PreparedStatement stmt = connection.prepareStatement("update users set full_name =? where username=?");
+           stmt.setString(1, fullname);
+           stmt.setString(2, username);
+           stmt.execute();
+           return;
+	   }
+	if(!password.equals("") && fullname.equals("")){
+	   PreparedStatement stmt = connection.prepareStatement("update users set password =? where username=?");
+           stmt.setString(1, password);
+           stmt.setString(2, username);
+           stmt.execute();
+           return;
+           }
+	if(!password.equals("") && !fullname.equals("")){
+	   PreparedStatement stmt = connection.prepareStatement("update users set full_name =?, password =? where username=?");
+           stmt.setString(1, fullname);
+           stmt.setString(2, password);
+	   stmt.setString(3, username);
+           stmt.execute();
+           return;
+	   }
+	}
+
 
     //Updates User
     public void updateUser(String username, String password, String fullname) throws SQLException {

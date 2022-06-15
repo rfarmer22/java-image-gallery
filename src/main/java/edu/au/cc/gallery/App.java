@@ -15,41 +15,37 @@ import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 public class App {
-    public String getGreeting() {
-        return "Hello David.";
-    }
+    	public String getGreeting() {
+        	return "Hello David.";
+    	}
 
-    public static void main(String[] args) throws Exception {
-//	port(5000);
+	private static String listUsers() {
+	try {
+		StringBuffer sb = new StringBuffer();
+		UserDAO dao = Postgres.getUserDAO();
+		for(User u: dao.getUsers())
+			sb.append(u.toString() +"<br/>");
+		return sb.toString();
+	} catch (Exception e) {
+		return "Error: " + e.getMessage();
+		}
+	}
+    	public static void main(String[] args) throws Exception {
+//		port(5000);
+//		get("/users", (req, res) -> listUsers());
 
-	String portString = System.getenv("JETTY_PORT");
-           if (portString == null || portString.equals("")) {
-             port(5000);
-           }  else {
-           port(Integer.parseInt(portString));
-	   }
+		String portString = System.getenv("JETTY_PORT");
+           		if (portString == null || portString.equals("")) {
+             		port(5000);
+           	}  else {
+           		port(Integer.parseInt(portString));
+	  	}
 
-	Routes.connectToDatabase();
-	new Routes().addRoutes();
+		Routes.connectToDatabase();
+		new Routes().addRoutes();
 
-//	String portString = System.getenv("JETTY_PORT");
-//	if (portString == null || portString.equals(""))
-//	    port(5000);
-//	else
-//	    port(Integer.parseInt(portString));
-//	get("/hello", (req, res) -> "<!DOCTYPE html><html><head><title>Hello</title><meta charset=\"utf-8\" /></head><body><h1>Hello World</h1></body></html>");
-//
-//	get("/goodbye", (req, res) -> "Goodbye");
-//
-//	get("/greet/:name", (req, res) -> "Nice to meet you "+ req.params(":name"));
-//
-//	post("/add", (req, res) -> "The sum is " + (Integer.parseInt(req.queryParams("x")) + Integer.parseInt(req.queryParams("y"))));
-//
-//	DB db = new DB();
-//	new Calculator().addRoutes();
-//	port(5000);
-//        get("/hello", (req, res) -> "Hello World");
-//	UserAdmin.main(null);
-//	DB.demo();
+//		DB db = new DB();
+		//UserAdmin.main(null);
+//		DB.demo();
     }
 }

@@ -28,9 +28,12 @@ public class Routes {
 	get("/admin", (req, res) -> adminPage(req, res));
 	get("/admin/deleteUser/:user", (req, res) -> deleteUser(req.params(":user"), res));
 	post("/admin/deleteUser/:user", (req, res) -> postDeleteUser(req.params(":user"), res));
+
 	get("/admin/addUser", (req, res) -> addUser(req, res));
 	post("/admin/addUser", (req, res) -> postAddUser(req.queryParams("username"), req.queryParams("pwd"), req.queryParams("full_name"), res));
-//	get("/admin/modifyUser/:user", (req, res) -> modifyUser(req, res));
+
+	get("/admin/modifyUser/:user", (req, res) -> modifyUser(req.params(":user"), res));
+	post("/admin/modifyUser/:user", (req, res) -> postModifyUser(req.params(":user"), req.queryParams("pwd"), req.queryParams("full_name"), res));
 
 	}
 
@@ -94,14 +97,27 @@ public class Routes {
            return "";
         }
 
-//	public void modifyUser(String username, Request req, Response res) {
-//	Map<String, Object> model = new HashMap<String, Object>();
-//	Result rs;
+	public String modifyUser(String username, Response res) {
+	Map<String, Object> model = new HashMap<String, Object>();
+	try{
+           model.put("user", username);
+           return new HandlebarsTemplateEngine().render(new ModelAndView(model, "modifyUser.hbs"));
+	} catch (Exception e) {
+	   System.out.println(e);
+	}
+	   return "";
+	}
 
-//	try{
-//
-//	} catch (SQLException e) {
-//	   System.out.println(e);
-//	}
+	public String postModifyUser(String username, String password, String fullname, Response res) {
+	Map<String, Object> model = new HashMap<String, Object>();
+	try{
+           db.modifyUser(username, password, fullname);
+	   res.redirect("/admin");
+	   return "";
+	} catch (SQLException e) {
+	   System.out.println(e);
+	}
+	return "";
+	}
 
 }
