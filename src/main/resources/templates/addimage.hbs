@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload Image</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
+    <h1>Upload Image for {{username}}</h1>
+        <form action="/users/{{username}}/images" method="POST" enctype="multipart/form-data">
+    		<input type="file" name="uploaded_image" accept="image/*">
+        	<input type="submit" value="Upload Picture">
+        </form>
+		<a href="/"><button>Back to Main Menu</a>
+  </body>
+</html>
+

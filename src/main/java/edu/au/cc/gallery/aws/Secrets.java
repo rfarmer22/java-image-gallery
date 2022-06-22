@@ -1,4 +1,4 @@
-package edu.au.cc.gallery;
+package edu.au.cc.gallery.aws;
 
 import software.amazon.awssdk.regions.Region;
 
@@ -6,6 +6,8 @@ import software.amazon.awssdk.services.secretsmanager.*;
 import software.amazon.awssdk.services.secretsmanager.model.*;
 
 import java.util.Base64;
+
+import edu.au.cc.gallery.data.*;
 
 public class Secrets {
 

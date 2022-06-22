@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.sql.*;
 
+import edu.au.cc.gallery.data.*;
+
 public class UserAdmin {
 
 	private static Scanner s = new Scanner(System.in);

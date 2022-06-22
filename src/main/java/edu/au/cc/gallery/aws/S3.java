@@ -1,5 +1,6 @@
-package edu.au.cc.gallery;
+package edu.au.cc.gallery.aws;
 
+import java.io.InputStream;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketConfiguration;
@@ -38,7 +39,7 @@ public class S3 {
 //	String bucketName = "edu.au.cc.image-gallery";
 //	S3 s3 = new S3();
 //	s3.connect();
-	//s3.createBucket(bucketName);
+//	s3.createBucket(bucketName);
 //	s3.putObject(bucketName, "banana", "green");
     }
 }

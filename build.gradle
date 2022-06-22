@@ -58,7 +58,7 @@ dependencies {
 
 application {
     // Define the main class for the application.
-    mainClassName = 'edu.au.cc.gallery.App'
+    mainClassName = 'edu.au.cc.gallery.ui.App'
 }
 
 task deploy(type:Exec) {
