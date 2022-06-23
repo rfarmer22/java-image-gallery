@@ -2,12 +2,12 @@ package edu.au.cc.gallery.data;
 
 public class Image {
 	private User user;
-	private String fileName;
+//	private String fileName;
 	private String uuid;
 
-	public Image(User user, String fileName, String uuid) {
+	public Image(User user, String uuid) { //String fileName, String uuid) {
 		this.user = user;
-		this.fileName = fileName;
+//		this.fileName = fileName;
 		this.uuid = uuid;
 	}
 
@@ -19,13 +19,13 @@ public class Image {
 		this.user = u;
 	}
 
-	public String getFileName() {
-		return fileName;
-	}
+//	public String getFileName() {
+//		return fileName;
+//	}
 
-	public void setFileName(String fn) {
-		this.fileName = fn;
-	}
+//	public void setFileName(String fn) {
+//		this.fileName = fn;
+//	}
 
 	public String getUuid() {
 		return uuid;

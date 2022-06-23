@@ -21,7 +21,7 @@ import edu.au.cc.gallery.aws.*;
 
 public class App {
 
-	private String bucketName = "edu.au.cc.image-gallery";
+	private static String bucketName = "edu.au.cc.image-gallery";
 
 	private static UserImageDAO getUserImageDAO() throws Exception {
                 return GenerateUserImageDAO.getUserImageDAO();
@@ -43,12 +43,12 @@ public class App {
 
 			req.attribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
                         InputStream is = req.raw().getPart("uploaded_image").getInputStream();
-			byte[] imageFileName = is.readAllBytes();
-           		String imageFileNameToString = new String(Base64.getEncoder().encodeToString(imageFileName));
-			Image image = new Image(user, imageFileNameToString, uuid);
+			byte[] imageData = is.readAllBytes();
 
+			Image image = new Image(user, uuid);
 			getUserImageDAO().addImageDB(user, image);
-			getUserImageDAO().addImageS3(user, image);
+			getUserImageDAO().addImageS3(user, image, imageData, "image/png");
+
 		} catch (Exception e) {
 			return "Error in postAddImage: " + e.toString();
 		}
@@ -57,13 +57,17 @@ public class App {
 		}
 
 	public static String viewImages(Request req, Response res) {
+	try {
 		Map<String, Object> model = new HashMap<String, Object>();
-                String username = req.session().attribute("user");
-		model.put("username", username);
+                User currentUser = Admin.getUserDAO().getUserByUsername(req.session().attribute("user"));
+		model.put("images", getUserImageDAO().getAllUserImages(currentUser));
+		model.put("bucketName", bucketName);
                 return new HandlebarsTemplateEngine()
                         .render(new ModelAndView(model, "viewimages.hbs"));
+	} catch (Exception e) {
+		return "Error in viewImages: " + e.getMessage();
+		}
 	}
-
     	public static void main(String[] args) throws Exception {
 		String portString = System.getenv("JETTY_PORT");
            		if (portString == null || portString.equals("")) {

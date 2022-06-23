@@ -27,12 +27,14 @@ public class S3 {
 	client.createBucket(createBucketRequest);
     }
 
-    public void putObject(String bucketName, String key, String value) {
+    public void putObject(String bucketName, String key, byte[] value, String contentType, String acl) {
 	PutObjectRequest por = PutObjectRequest.builder()
 	    .bucket(bucketName)
 	    .key(key)
+	    .contentType(contentType)
+	    .acl(acl)
 	    .build();
-	client.putObject(por, RequestBody.fromString(value));
+	client.putObject(por, RequestBody.fromBytes(value));
     }
 
     public static void demo() {

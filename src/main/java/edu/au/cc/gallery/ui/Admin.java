@@ -49,6 +49,7 @@ public class Admin {
 		post("/users/:username/images", (req, res) -> App.postAddImage(req, res));
 
 		before("/users/:username/*", (req, res) -> checkUser(req, res));
+
 		get("/users/:username/viewimages", (req, res) -> App.viewImages(req, res));
                 }
 

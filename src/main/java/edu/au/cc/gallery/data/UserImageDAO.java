@@ -4,6 +4,7 @@ import java.util.*;
 import edu.au.cc.gallery.ui.*;
 import edu.au.cc.gallery.aws.*;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class UserImageDAO implements ImageDAO {
@@ -19,7 +20,13 @@ public class UserImageDAO implements ImageDAO {
 	private String bucketName = "edu.au.cc.image-gallery";
 
 	public List<Image> getAllUserImages(User u)  throws Exception {
-		return null;
+		List<Image> result = new ArrayList<>();
+		ResultSet rs = connection.executeQuery("select file_name from images where username = ?", new String[]{u.getUsername()});
+		while (rs.next()) {
+			result.add(new Image(u, rs.getString(1)));
+		}
+		rs.close();
+		return result;
 	}
 
 	public Image getImage(User u, Image image) throws Exception {
@@ -30,12 +37,17 @@ public class UserImageDAO implements ImageDAO {
 		connection.execute("insert into images(username,file_name) values (?,?)", new String[]{u.getUsername(),image.getUuid()});
 	}
 
-	public void addImageS3(User u, Image image) throws Exception {
+	public void addImageS3(User u, Image image, byte[] imageData, String contentType) throws Exception {
+		String acl = "bucket-owner-full-control";
 		s3.connect();
-		s3.putObject(bucketName, image.getUuid(), image.getFileName());
+		s3.putObject(bucketName, image.getUuid(), imageData, contentType, acl);
 	}
 
-	public void deleteImage(User u, Image image) throws Exception {
+	public void deleteImageDB(User u, Image image) throws Exception {
+
+	}
+
+	public void deleteImageS3(User u, Image image) throws Exception {
 
 	}
 
