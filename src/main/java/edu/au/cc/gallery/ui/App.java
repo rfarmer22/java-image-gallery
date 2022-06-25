@@ -62,12 +62,53 @@ public class App {
                 User currentUser = Admin.getUserDAO().getUserByUsername(req.session().attribute("user"));
 		model.put("images", getUserImageDAO().getAllUserImages(currentUser));
 		model.put("bucketName", bucketName);
+		model.put("user", currentUser.getUsername());
                 return new HandlebarsTemplateEngine()
                         .render(new ModelAndView(model, "viewimages.hbs"));
 	} catch (Exception e) {
 		return "Error in viewImages: " + e.getMessage();
 		}
 	}
+
+	public static String viewSingleImage(Request req, Response res) {
+	try {
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("bucketName", bucketName);
+		model.put("uuid", req.params("uuid"));
+	 	return new HandlebarsTemplateEngine()
+                        .render(new ModelAndView(model, "viewsingleimage.hbs"));
+        } catch (Exception e) {
+                return "Error in viewSingleImage: " + e.getMessage();
+                }
+        }
+
+	public static String deleteImage(Request req, Response res) {
+                Map<String, Object> model = new HashMap<>();
+                model.put("title", "Delete Image");
+                model.put("message", "Are you sure that you want to delete this image?");
+                model.put("onYes", "/user/" + req.params(":username") + "/deleteimageexec/" + req.params(":uuid"));
+                model.put("onNo", "/");
+                return new HandlebarsTemplateEngine()
+                        .render(new ModelAndView(model, "confirm.hbs"));
+        }
+
+	public static String deleteImageExec(Request req, Response res) {
+	try {
+                User currentUser = Admin.getUserDAO().getUserByUsername(req.session().attribute("user"));
+		String deleteUUID = req.params(":uuid");
+//		model.put("bucketName", bucketName);
+//		model.put("uuid", deleteUUID);
+
+		getUserImageDAO().deleteImageDB(currentUser, deleteUUID);
+		getUserImageDAO().deleteImageS3(deleteUUID);
+		res.redirect("/");
+	 	//return new HandlebarsTemplateEngine()
+                  //      .render(new ModelAndView(model, "deleteImage.hbs"));
+        } catch (Exception e) {
+                return "Error in deleteImage: " + e.getMessage();
+                }
+		return null;
+        }
     	public static void main(String[] args) throws Exception {
 		String portString = System.getenv("JETTY_PORT");
            		if (portString == null || portString.equals("")) {

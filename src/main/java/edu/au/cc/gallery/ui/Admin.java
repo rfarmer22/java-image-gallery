@@ -51,6 +51,12 @@ public class Admin {
 		before("/users/:username/*", (req, res) -> checkUser(req, res));
 
 		get("/users/:username/viewimages", (req, res) -> App.viewImages(req, res));
+
+		get("/user/:username/images/:uuid", (req, res) -> App.viewSingleImage(req, res));
+
+		get("/user/:username/deleteimage/:uuid", (req, res) -> App.deleteImage(req, res));
+		get("/user/:username/deleteimageexec/:uuid", (req, res) -> App.deleteImageExec(req, res));
+
                 }
 
 

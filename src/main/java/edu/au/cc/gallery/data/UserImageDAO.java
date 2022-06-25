@@ -29,26 +29,22 @@ public class UserImageDAO implements ImageDAO {
 		return result;
 	}
 
-	public Image getImage(User u, Image image) throws Exception {
-		return null;
-	}
-
 	public void addImageDB(User u, Image image) throws Exception {
 		connection.execute("insert into images(username,file_name) values (?,?)", new String[]{u.getUsername(),image.getUuid()});
 	}
 
 	public void addImageS3(User u, Image image, byte[] imageData, String contentType) throws Exception {
-		String acl = "bucket-owner-full-control";
 		s3.connect();
-		s3.putObject(bucketName, image.getUuid(), imageData, contentType, acl);
+		s3.putObject(bucketName, image.getUuid(), imageData, contentType);
 	}
 
-	public void deleteImageDB(User u, Image image) throws Exception {
-
+	public void deleteImageDB(User u, String uuid) throws Exception {
+		connection.execute("delete from images where username = ? and file_name = ?", new String[]{u.getUsername(), uuid});
 	}
 
-	public void deleteImageS3(User u, Image image) throws Exception {
-
+	public void deleteImageS3(String uuid) throws Exception {
+		s3.connect();
+		s3.deleteObject(bucketName, uuid);
 	}
 
 //	@Override

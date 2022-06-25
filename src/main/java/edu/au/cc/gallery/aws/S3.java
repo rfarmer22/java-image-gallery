@@ -6,6 +6,7 @@ import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.CreateBucketConfiguration;
 import software.amazon.awssdk.services.s3.model.CreateBucketRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.core.sync.RequestBody;
 
 public class S3 {
@@ -27,14 +28,22 @@ public class S3 {
 	client.createBucket(createBucketRequest);
     }
 
-    public void putObject(String bucketName, String key, byte[] value, String contentType, String acl) {
+    public void putObject(String bucketName, String key, byte[] value, String contentType) {
 	PutObjectRequest por = PutObjectRequest.builder()
 	    .bucket(bucketName)
 	    .key(key)
 	    .contentType(contentType)
-	    .acl(acl)
 	    .build();
 	client.putObject(por, RequestBody.fromBytes(value));
+    }
+
+    public void deleteObject(String bucketName, String key) {
+        DeleteObjectRequest deleteObject = DeleteObjectRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+        client.deleteObject(deleteObject);
+
     }
 
     public static void demo() {
