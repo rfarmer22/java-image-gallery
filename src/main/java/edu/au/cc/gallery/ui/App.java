@@ -47,7 +47,7 @@ public class App {
 
 			Image image = new Image(user, uuid);
 			getUserImageDAO().addImageDB(user, image);
-			getUserImageDAO().addImageS3(user, image, imageData, "image/png");
+			getUserImageDAO().addImageS3(user, image, imageData, "image/*");
 
 		} catch (Exception e) {
 			return "Error in postAddImage: " + e.toString();
@@ -60,9 +60,13 @@ public class App {
 	try {
 		Map<String, Object> model = new HashMap<String, Object>();
                 User currentUser = Admin.getUserDAO().getUserByUsername(req.session().attribute("user"));
+	        String currentUsername = currentUser.getUsername();
+
+		String username = req.session().attribute("user");
+                model.put("username", username);
+
 		model.put("images", getUserImageDAO().getAllUserImages(currentUser));
 		model.put("bucketName", bucketName);
-		model.put("user", currentUser.getUsername());
                 return new HandlebarsTemplateEngine()
                         .render(new ModelAndView(model, "viewimages.hbs"));
 	} catch (Exception e) {
@@ -96,14 +100,9 @@ public class App {
 	try {
                 User currentUser = Admin.getUserDAO().getUserByUsername(req.session().attribute("user"));
 		String deleteUUID = req.params(":uuid");
-//		model.put("bucketName", bucketName);
-//		model.put("uuid", deleteUUID);
-
 		getUserImageDAO().deleteImageDB(currentUser, deleteUUID);
 		getUserImageDAO().deleteImageS3(deleteUUID);
 		res.redirect("/");
-	 	//return new HandlebarsTemplateEngine()
-                  //      .render(new ModelAndView(model, "deleteImage.hbs"));
         } catch (Exception e) {
                 return "Error in deleteImage: " + e.getMessage();
                 }
@@ -117,11 +116,12 @@ public class App {
            		port(Integer.parseInt(portString));
 	  	}
 
+		new Admin().addRoutes();
+
 //		Routes.connectToDatabase();
 //		new Routes().addRoutes();
-		new Admin().addRoutes();
 //		DB db = new DB();
-		//UserAdmin.main(null);
+//		UserAdmin.main(null);
 //		DB.demo();
     }
 }

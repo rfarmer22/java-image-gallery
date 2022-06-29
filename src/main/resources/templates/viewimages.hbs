@@ -10,11 +10,11 @@
 	<br>
         {{#images}}	
 	
-	<a href="/user/{{user}}/images/{{uuid}}" method="GET">
+	<a href="/user/{{username}}/images/{{uuid}}" method="GET">
 	<img src = "https://s3.us-east-2.amazonaws.com/{{bucketName}}/{{uuid}}" width="250px" height="auto"/>
 	</a>
 
-	<form action="/user/{{user}}/deleteimage/{{uuid}}" method="GET">
+	<form action="/user/{{username}}/deleteimage/{{uuid}}" method="GET">
                 <button type="submit" name="deleteimage" value="{{uuid}}">Delete</button>
         </form>
 	<br>
